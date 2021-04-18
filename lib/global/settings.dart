@@ -6,7 +6,7 @@ Future<Map<String, dynamic>> readPreferences() async {
   final all = <String, dynamic>{};
 
   all['serverAddress'] = await Prefs.getStringF('serverAddress');
-  all['serverKey'] = await Prefs.getIntF('serverPort');
+  all['serverKey'] = await Prefs.getStringF('serverKey');
 
   return all;
 }

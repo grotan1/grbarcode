@@ -15,7 +15,8 @@ class SendBarCode implements BarCodeRepository {
     if (_settings['serverAddress'] == '' || _settings['serverKey'] == '') {
       throw NetworkException('Vensligs konfigurer serverinstillingene.');
     }
-
+    print('Address: ${_settings["serverAddress"]}');
+    print('Key: ${_settings["serverKey"]}');
     final dio = Dio();
 
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
