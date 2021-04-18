@@ -39,7 +39,7 @@ class SendBarCode implements BarCodeRepository {
         'X-API-KEy': '${_settings["serverKey"]}',
       }
       ..responseType = ResponseType.plain;
-
+    print(dio.options.baseUrl);
     final data = '$barCode';
     print(data);
     final response = await dio

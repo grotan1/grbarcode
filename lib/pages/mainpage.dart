@@ -16,10 +16,7 @@ class _MainPageState extends State<MainPage> {
 
   void initState() {
     super.initState();
-
-    Prefs.init().then((value) {
-      if (!value.containsKey('serverAddress')) {}
-    });
+    Prefs.init();
   }
 
   Set _scannedCodes = {};

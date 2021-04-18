@@ -2,29 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:prefs/prefs.dart';
 
 class SettingsDrawer extends StatefulWidget {
-  SettingsDrawer();
+  SettingsDrawer({Key key}) : super(key: key);
   @override
   _SettingsDrawerState createState() => _SettingsDrawerState();
 }
 
 class _SettingsDrawerState extends State<SettingsDrawer> {
-  final Map arguments;
-
-  _SettingsDrawerState({this.arguments});
+  _SettingsDrawerState();
 
   final TextEditingController _serverAddressController =
       TextEditingController();
   final TextEditingController _serverKeyController = TextEditingController();
   final FocusNode _serverAddressFocus = FocusNode();
   final FocusNode _serverKeyFocus = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _serverAddressController.text = Prefs.getString('serverAddress');
-    _serverKeyController.text = Prefs.getString('serverKey');
-  }
 
   _fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
@@ -33,12 +23,23 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      _serverAddressController.text = Prefs.getString('serverAddress', '');
+      _serverKeyController.text = Prefs.getString('serverKey', '');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
+          Container(
+              child: DrawerHeader(
             child: Column(
               children: [
                 Text('Innstillinger',
@@ -55,7 +56,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-          ),
+          )),
           Container(
               margin: EdgeInsets.all(3),
               child: Column(

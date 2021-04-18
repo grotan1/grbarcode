@@ -4,6 +4,7 @@ import 'package:grbarcode/pages/mainpage.dart';
 
 import 'cubit/sendbarcode_cubit.dart';
 import 'data/sendbarcoderepo.dart';
+import 'package:prefs/prefs.dart';
 
 void main() {
   runApp(MyApp());
