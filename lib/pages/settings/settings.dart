@@ -12,9 +12,6 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
 
   _SettingsDrawerState({this.arguments});
 
-  //var _serverAddress = '';
-  // var _serverKey = '';
-  bool _settingsChanged = false;
   final TextEditingController _serverAddressController =
       TextEditingController();
   final TextEditingController _serverKeyController = TextEditingController();
@@ -44,45 +41,46 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
           DrawerHeader(
             child: Column(
               children: [
-                Text('Settings', style: TextStyle(color: Colors.white)),
+                Text('Settings',
+                    style: TextStyle(color: Colors.white, fontSize: 24)),
               ],
             ),
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
           ),
-          TextFormField(
-            decoration: InputDecoration(
-                border: UnderlineInputBorder(), labelText: 'Server'),
-            controller: _serverAddressController,
-            focusNode: _serverAddressFocus,
-            textInputAction: TextInputAction.next,
-            onFieldSubmitted: (term) => _fieldFocusChange(
-                context, _serverAddressFocus, _serverKeyFocus),
-            onChanged: (_) {
-              Prefs.setString('serverAddress', _serverAddressController.text);
-            },
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-                border: UnderlineInputBorder(), labelText: 'Servernøkkel'),
-            focusNode: _serverKeyFocus,
-            controller: _serverKeyController,
-            textInputAction: TextInputAction.done,
-            onChanged: (_) {
-              Prefs.setString('serverKey', _serverKeyController.text);
-            },
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextButton(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-            ),
-            onPressed: () {},
-            child: Text('Test'),
-          )
+          Container(
+              margin: EdgeInsets.all(3),
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                        border: UnderlineInputBorder(), labelText: 'Server'),
+                    controller: _serverAddressController,
+                    focusNode: _serverAddressFocus,
+                    keyboardType: TextInputType.url,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (term) => _fieldFocusChange(
+                        context, _serverAddressFocus, _serverKeyFocus),
+                    onChanged: (_) {
+                      Prefs.setString(
+                          'serverAddress', _serverAddressController.text);
+                    },
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Servernøkkel'),
+                    focusNode: _serverKeyFocus,
+                    controller: _serverKeyController,
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (_) {
+                      Prefs.setString('serverKey', _serverKeyController.text);
+                    },
+                  ),
+                ],
+              ))
         ],
       ),
     );
