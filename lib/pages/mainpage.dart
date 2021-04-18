@@ -7,6 +7,7 @@ import 'package:grbarcode/data/sendbarcoderepo.dart';
 import 'package:grbarcode/pages/settings/settings.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
+import 'package:prefs/prefs.dart';
 
 class MainPage extends StatefulWidget {
   MainPage();
@@ -16,6 +17,14 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   _MainPageState();
+
+  void initState() {
+    super.initState();
+
+    Prefs.init().then((value) {
+      if (!value.containsKey('serverAddress')) {}
+    });
+  }
 
   Set _scannedCodes = {};
   List _barCodeList = ['123aaabbbccccHHHJJJ', '2', '3', '4', '5'];
@@ -35,7 +44,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: settings(),
+        drawer: SettingsDrawer(),
         appBar: AppBar(
           title: Text('Barcode Scanner'),
         ),

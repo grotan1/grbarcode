@@ -1,5 +1,8 @@
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:grbarcode/global/settings.dart';
+
+import 'networkerror_helper.dart';
 
 abstract class BarCodeRepository {
   Future<String> sendBarCode(String barCode);
@@ -8,6 +11,11 @@ abstract class BarCodeRepository {
 class SendBarCode implements BarCodeRepository {
   @override
   Future<String> sendBarCode(String barCode) async {
+    final Map _settings = await readPreferences();
+    if (_settings['serverAddress'] == '' || _settings['serverKey'] == '') {
+      throw NetworkException('Vensligs konfigurer serverinstillingene.');
+    }
+
     final dio = Dio();
 
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
@@ -18,7 +26,7 @@ class SendBarCode implements BarCodeRepository {
     };
 
     dio.options
-      ..baseUrl = 'https://10.0.0.102:6942'
+      ..baseUrl = 'https://${_settings["serverAddress"]}:6942'
       //  '${_settings["serverAddress"]}:${_settings["serverPort"]}/v1/objects/hosts'
       //
       // ..method =
@@ -27,7 +35,7 @@ class SendBarCode implements BarCodeRepository {
         'User-Agent': 'GRBarCode',
         'Accept': 'text/html; charset=utf-8',
         'Content-Type': 'text/html; charset=utf-8',
-        'X-API-KEy': '7862967551',
+        'X-API-KEy': '${_settings["serverKey"]}',
       }
       ..responseType = ResponseType.plain;
 
