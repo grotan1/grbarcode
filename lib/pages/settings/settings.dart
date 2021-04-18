@@ -41,8 +41,15 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
           DrawerHeader(
             child: Column(
               children: [
-                Text('Settings',
+                Text('Innstillinger',
                     style: TextStyle(color: Colors.white, fontSize: 24)),
+                SizedBox(
+                  height: 5,
+                ),
+                Image(
+                  image: AssetImage('assets/logo/logo_transparent.png'),
+                  width: 150,
+                )
               ],
             ),
             decoration: BoxDecoration(

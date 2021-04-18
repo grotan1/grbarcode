@@ -1,12 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grbarcode/cubit/sendbarcode_cubit.dart';
-import 'package:grbarcode/data/sendbarcoderepo.dart';
 import 'package:grbarcode/pages/settings/settings.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter/services.dart';
 import 'package:prefs/prefs.dart';
 
 class MainPage extends StatefulWidget {
@@ -27,8 +23,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Set _scannedCodes = {};
-  List _barCodeList = ['123aaabbbccccHHHJJJ', '2', '3', '4', '5'];
-  List _log = [];
+  List _barCodeList = [];
 
   var now = DateTime.now();
 
@@ -56,45 +51,37 @@ class _MainPageState extends State<MainPage> {
                   onPressed: () async {
                     _scannedCodes = {};
                     startBarcodeScanStream();
-                    print('grgA');
                   },
                   child: Text('Start skann')),
-              //Expanded(
-              //  child:
               Container(
                   height: 300,
                   child: ListView.builder(
-                    //    separatorBuilder: (context, index) {
-                    //      return const Divider();
-                    //    },
                     shrinkWrap: true,
                     itemCount: _barCodeList.length,
                     itemBuilder: (context, index) {
                       return Card(
+                        margin: EdgeInsets.all(3),
                         child: InkWell(
-                          onTap: () {
-                            print(index);
-                            //  print()
-                            BlocProvider.of<SendBarCodeCubit>(context)
-                                .sendBarCode('${_barCodeList[index]}');
-                          },
-                          child: Text(
-                            '${_barCodeList[index]}',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
+                            onTap: () {
+                              print(index);
+                              BlocProvider.of<SendBarCodeCubit>(context)
+                                  .sendBarCode('${_barCodeList[index]}');
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Text(
+                                '${_barCodeList[index]}',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            )),
                       );
-
-                      //  ListTile(
-                      //    title: Text('${_barCodeList[index]}'),
-                      //    onTap: () {},
-                      //  );
                     },
-                  )
-                  // )
-                  ),
-              Text('Scan result : $_scannedCodes\n',
-                  style: TextStyle(fontSize: 20)),
+                  )),
+              Container(
+                  margin: EdgeInsets.all(3),
+                  alignment: Alignment.centerLeft,
+                  child: Text('Status:',
+                      style: TextStyle(fontWeight: FontWeight.bold))),
               BlocBuilder<SendBarCodeCubit, SendBarCodeState>(
                 builder: (_, state) {
                   if (state is SendBarCodeInitial) {
@@ -112,41 +99,36 @@ class _MainPageState extends State<MainPage> {
                 },
               ),
             ]));
-
-    /*  */
   }
 
   barCodeInitial() {
-    return Text('Initial');
+    return Container(
+        margin: EdgeInsets.all(3),
+        alignment: Alignment.centerLeft,
+        child: Text(''));
   }
 
   barCodeSending() {
-    return Text('Sending');
+    return Container(
+        margin: EdgeInsets.all(3),
+        alignment: Alignment.centerLeft,
+        child: Text(
+          'Sender til server',
+        ));
   }
 
   barCodeSent(String state, BuildContext context) {
-    return Text('$state');
+    return Container(
+        margin: EdgeInsets.all(3),
+        alignment: Alignment.centerLeft,
+        child: Text('$state'));
     //  return void;
   }
 
-  Widget barCodeError(String message) {
-    return AlertDialog(
-      title: Text('Error'),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: <Widget>[
-            Text('$message'),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        TextButton(
-          child: Text('OK'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
+  barCodeError(String message) {
+    return Container(
+        margin: EdgeInsets.all(3),
+        alignment: Alignment.centerLeft,
+        child: Text('$message'));
   }
 }

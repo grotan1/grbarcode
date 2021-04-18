@@ -42,8 +42,11 @@ class SendBarCode implements BarCodeRepository {
 
     final data = '$barCode';
     print(data);
-    final response = await dio.post('', data: data);
-    return response.toString();
+    final response = await dio
+        .post('', data: data)
+        .catchError((e) => throw NetworkException(e));
+    print(response.statusMessage);
+    return response.statusMessage;
     //  .catchError((e) => throw NetworkException(e));
   }
 }

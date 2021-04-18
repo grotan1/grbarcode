@@ -15,8 +15,8 @@ class SendBarCodeCubit extends Cubit<SendBarCodeState> {
       final sendBarCode = await _barCodeRepository.sendBarCode(barCode);
 
       emit(BarCodeSent(sendBarCode));
-    } on NetworkException {
-      print('Error');
+    } on NetworkException catch (e) {
+      emit(SendBarCodeError('$e'));
     }
   }
 }
